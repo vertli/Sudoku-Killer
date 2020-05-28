@@ -7,27 +7,22 @@ public class Sudoku {
     public Sudoku() {}
 
     /**
-     * Returns true if the demo Sudoku game text file is able to open;
-     *   otherwise, return false.
+     * Opens the game text file; it will throw exception
+     *   if the file is unable to open or something is going wrong.
      * @param seed the [id] in the file name "game[id].text"
-     * @return     Boolean
      */
-    public boolean createGame(int seed) {
+    public void createGame(int seed) throws IOException {
         String filePath = ".\\demos\\game" + seed + ".txt";
-        return this.createGame(filePath);
+        this.createGame(filePath);
     } // end createGame()
 
     /**
-     * Returns true if the given text file path can be found, opened,
-     *   converted it to the game board formal and stored in gameBoard;
-     *   otherwise, return false.
-     * P.S. It is not a good idea to do System.out.println here; it should
-     *        throw the exception so users can control what they want to do
-     *        if exception exists.
+     * Opens the given text file if the path is found, then converts it
+     *   to the game board formal and stores in gameBoard.
+     *   Otherwise, throws exception.
      * @param filePath the path of the Sudoku game text file
-     * @return         Boolean
      */
-    public boolean createGame(String filePath) {
+    public void createGame(String filePath) throws IOException {
         this.gameBoard = new int [9][9];
         int row = 0;
         int col = 0;
@@ -40,20 +35,16 @@ public class Sudoku {
                     if (ch >= 48 && ch <= 57) {
                         this.gameBoard[row][col] = Character.getNumericValue(ch);
                         col++;
-                    }
-                }
+                    } // end if
+                } // end for(ch)
                 row++;
                 col = 0;
-            }
+            } // end while()
             reader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("I cannot find the file path...");
-            return false;
         } catch (Exception e) {
-            System.out.println("Something wrong here...");
-            return false;
-        }
-        return true;
+            throw e;
+        } // end try..catch
+
     } // end createGame()
 
     /**
